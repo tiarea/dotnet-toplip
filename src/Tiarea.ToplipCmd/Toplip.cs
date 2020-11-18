@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,15 +7,27 @@ namespace Tiarea.ToplipCmd
     public sealed class Toplip
     {
         /// <summary>
-        /// 文件加密
+        /// file encrypt
         /// </summary>
-        /// <param name="filePath">文件路径</param>
-        /// <param name="password">密码</param>
+        /// <param name="filePath">wait encrypt file path,include file name.</param>
+        /// <param name="outputPath">output encrypt file path</param>
+        /// <param name="password">password</param>
         /// <param name="cancelToken"></param>
-        /// <returns>加密文件路径</returns>
-        public static Task<string> EncryptAsync(string filePath, string password, CancellationToken? cancelToken)
+        /// <returns></returns>
+        public static async Task EncryptAsync(string filePath,string outputPath, string password, CancellationToken cancelToken = default)
         {
-            throw new NotImplementedException();
+            var builder = new ToplipProcessBuilder(ToplipOpType.Encrypt)
+                .AddPassword(password)
+                .AddInputFilePath(filePath)
+                .AddOutputFilePath(outputPath);
+
+            var executer = new ToplipExecutor(builder);
+
+            cancelToken.Register((execr) => {
+                ((ToplipExecutor)execr).Stop();
+            }, state: executer);
+
+            await Task.Run(() => executer.Execute(), cancelToken);
         }
 
         /// <summary>
@@ -41,7 +50,7 @@ namespace Tiarea.ToplipCmd
         /// <param name="password"></param>
         /// <param name="cancelToken"></param>
         /// <returns></returns>
-        public static Task<string> HiddenFileInImageAsync(string filePath, string imageFilePath, string password, CancellationToken? cancelToken) 
+        public static Task<string> HiddenFileInImageAsync(string filePath, string imageFilePath, string password, CancellationToken? cancelToken)
         {
             throw new NotImplementedException();
         }

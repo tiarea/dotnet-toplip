@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Tiarea.ToplipCmd
 {
-    class ToplipContext
+    public class ToplipContext
     {
         /// <summary>
         /// 输入文件路径
@@ -29,10 +29,26 @@ namespace Tiarea.ToplipCmd
         /// <summary>
         /// 密码列表
         /// </summary>
-        public IEnumerable<string> PasswordList { set; get; }
+        public IList<string> PasswordList { set; get; }
         /// <summary>
         /// 密码数量
         /// </summary>
         public int PasswordCount { get { return PasswordList.Count(); } }
+
+        /// <summary>
+        /// 操作类型
+        /// </summary>
+        public ToplipOpType OpType { get; init; }
+    }
+
+    /// <summary>
+    /// toplip操作类型
+    /// </summary>
+    public enum ToplipOpType
+    {
+        Encrypt,
+        Decrypt,
+        HiddenFileInsideImage,
+        ExtractFileFromImage
     }
 }
