@@ -117,7 +117,7 @@ namespace Tiarea.ToplipCmd
                 case ToplipOpType.ExtractFileFromImage:
                     builder.Append(" -d");
                     break;
-                case ToplipOpType.HiddenFileInsideImage:
+                case ToplipOpType.HiddenFileInImage:
                     builder.Append($" -m {Context.ImgFilePath}");
                     break;
                 case ToplipOpType.Encrypt:
